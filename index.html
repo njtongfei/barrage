@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>滚动弹幕</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<link rel="stylesheet" href="css/clear.css" />
+		<link rel="stylesheet" href="css/animate.css" />
+		<link rel="stylesheet" href="css/style.css" />
+	</head>
+
+	<body>
+ 
+ 
+		<div class="main page">
+			<div class="page2">
+				<div class="wrap">
+ 					<div class="phone   wow  fadeInUp">
+						<img src="images/page2_phone.png" class="" />
+					</div>
+					<div class="usermsg" style="">
+
+					</div>
+					<div class="usermsg2">
+						<span class="phoneMsg  user1">&nbsp;&nbsp;菇凉，我想和你睡觉</span>
+						<span class="phoneMsg  user2">&nbsp;&nbsp;第一次大保健，没经验啊</span>
+						<span class="phoneMsg  user3">&nbsp;&nbsp;老司机求番号</span>
+						<span class="phoneMsg  user4">&nbsp;&nbsp;老板摸了我... </span>
+						<span class="phoneMsg  user5">&nbsp;&nbsp;兄弟们出来喝特仑苏 </span>
+						<span class="phoneMsg  user6">&nbsp;&nbsp;我的JJ很暖和... </span>
+						<span class="phoneMsg  user7">&nbsp;&nbsp;胸大还不让人摸了 </span>
+						<span class="phoneMsg  user8">&nbsp;&nbsp;宝贝，我下面给你吃 </span>
+						<span class="phoneMsg  user9">&nbsp;&nbsp;我不行了，快扶我去做大保健 </span>
+						<span class="phoneMsg  user10">&nbsp;&nbsp;不撩了，又不给睡 </span>
+					</div>
+				</div>
+			</div>
+		 
+			 
+	 </div>
+	</body>
+	<script type="text/javascript" src="js/jquery-1.11.1.min.js"></script>
+ 
+	<script>
+ 		// 弹幕
+		var userText = ["菇凉，我想和你睡觉", "第二次大保健，没经验啊<img src=images/smile.png>", "老司机求番号", "老板摸了我... ", "宝贝，我下面给你吃 ", "这B装的very good 来，鼓掌", "哟，这二货谁啊，装逼套路这么熟悉",
+			"待会我一拖鞋飞过去，你就会知道什么叫做多么痛的领悟<img src=images/smile.png> ", "哎呀！我被楼上的推到了，没有两万起不来", "吓得我都怀孕了", "没前途!分手吧，原来你是做程序的", "兄弟们出来喝特仑苏", "胸大还不让人摸了", "我要把你嫖娼的事情说出去",
+			"我不行了，快扶我去做大保健", "国家怎么不拿你脸皮做防弹衣", "吵个毛啊！影响老子看天线宝宝", "你男朋友还不错，就是味道软了点", "别说话，用嘴去感受<img src=images/smile.png>", "不撩了，又不给睡", "怎么了，长得丑不能约?", "装逼累了，困了来滴风油精，让你状态满格"
+		]
+		var userText2 = ["果然男人骚起来没女人什么事儿了", "这首歌 日本歌曲 极乐净土！日本舞蹈", "快来啊 小火车开炮咯！！", "老板摸了我... ", "宝贝，我下面给你吃 ", "这B装的very good 来，鼓掌", "哟，这二货谁啊，装逼套路这么熟悉",
+			"待会我一拖鞋飞过去，你就会知道什么叫做多么痛的领悟<img src=images/smile.png> ", "哎呀！我被楼上的推到了，没有两万起不来", "吓得我都怀孕了", "没前途!分手吧，原来你是做程序的", "兄弟们出来喝特仑苏", "胸大还不让人摸了", "我要把你嫖娼的事情说出去",
+			"我不行了，快扶我去做大保健", "NO爆料果真真劲爆", "这他妈不是张一山"]
+		$.fn.scrollText = function(options) {
+			var defaults = {
+				dombox: "usermsg",
+ 				textarry: ["菇凉，我想和你睡觉", "国家怎么不拿你脸皮做防弹衣"]
+			}
+			var options = $.extend(defaults, options);
+			$(this).find(defaults.dombox).html('');
+			var html = '';
+
+			for(var i = 0; i < defaults.textarry.length; i++) {
+				html += '<span class="phoneMsg  user' + i + '">&nbsp;&nbsp;' + defaults.textarry[i] + '</span>'
+			}
+
+			//随机数函数
+			function fnRandom(min, max) {
+				return parseInt((max - min) * Math.random() + min + 1)
+			}
+
+			function getCssLeft() {
+				var setWarp = fnRandom(20, 800);
+				//随机位置
+				var x = fnRandom(0, $(this).find(defaults.dombox).width() - setWarp);
+				x = x < setWarp ? setWarp : x;
+				return x;
+			}
+
+			function getCssTop() {
+				var setWarp = fnRandom(100, 700);
+				var y = fnRandom(0, $(this).find(defaults.dombox).height() - setWarp);
+				y = y < setWarp ? setWarp : y;
+				return y;
+			}
+			$(this).find(defaults.dombox).append(html);
+			var len = 0;
+			var num = $(this).find(defaults.dombox).find('span').size();
+			var parent = $(this).find(defaults.dombox);
+			var setCss = setInterval(function() {
+				if(len >= num) {
+					clearInterval(setCss);
+				} else {
+					$(parent).find('span').eq(len).css({
+						'left': getCssLeft() + 'px',
+						'top': getCssTop() + 'px'
+					})
+					len++;
+				}
+			}, 50)
+
+		}
+		$(function() {
+			'use strict'
+			$(".page2").scrollText({
+				dombox: ".usermsg",
+				textarry: userText
+			})
+			$(".page2").scrollText({
+				dombox: ".usermsg2",
+				textarry: userText2
+			})
+		})
+	</script>
+
+</html>
